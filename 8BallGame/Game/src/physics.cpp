@@ -1,5 +1,5 @@
 #include <display.h>
-#include <std.h>
+#include <stdlib.h>
 
 #define NUM_BALLS 1
 
