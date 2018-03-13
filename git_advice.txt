@@ -1,0 +1,4 @@
+Please stop breaking git in Pandon F1 by entering your details in the global config! 
+When entering your details please cd into your repository and use git config user.name "Test User"
+This will keep your configuration local to your repository and not ruin others repositories
+Do Not use --global as this means everyones projects check in and out with your username which can be very frustrating and cause issues
