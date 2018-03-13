@@ -1,5 +1,5 @@
 #include <math.h>
-#include "vector.cpp"
+#include "vector.h"
 
 class Matrix3x3 {
 	public:

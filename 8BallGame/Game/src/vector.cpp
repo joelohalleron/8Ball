@@ -1,28 +1,9 @@
 #include <math.h>
+#include "vector.h"
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //Vector class and vector functions
 //--------------------------------------------------------------------------------------------------------------------------------------
-class Vector {
-	public: 
-		float x;
-		float y;
-		float z;
-	
-	Vector(void);
-	Vector(float xi, float yi, float zi);
-	
-	float Magnitude(void);
-	void Normalise(void);
-	void Reverse(void);
-	
-	Vector& operator+=(Vector u);
-	Vector& operator-=(Vector u);
-	Vector& operator*=(float s);
-	Vector& operator/=(float s);
-	
-	Vector operator-(void);
-};
 
 //Constructor no arguments
 inline Vector::Vector(void)

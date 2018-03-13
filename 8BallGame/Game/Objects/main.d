@@ -99,4 +99,3 @@
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\wchar.h
 .\objects\main.o: ..\ebb\EALib\GFXFb.h
 .\objects\main.o: ..\ebb\EALib\Adafruit_GFX.h
-.\objects\main.o: .\src\Matrix.h

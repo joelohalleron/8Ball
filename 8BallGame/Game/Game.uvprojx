@@ -422,7 +422,7 @@
                     <vShortEn>2</vShortEn>
                     <vShortWch>2</vShortWch>
                     <v6Lto>0</v6Lto>
-                    <v6WtE>0</v6WtE>
+                    <v6WtE>2</v6WtE>
                     <v6Rtti>2</v6Rtti>
                     <VariousControls>
                       <MiscControls></MiscControls>
@@ -458,6 +458,16 @@
               <FileName>Matrix3x3.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Matrix3x3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Quaternion.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Quaternion.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Quaternion.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Quaternion.h</FilePath>
             </File>
           </Files>
         </Group>
