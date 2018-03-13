@@ -1,4 +1,3 @@
-#include <vector.h>
 #include <math.h>
 
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -136,4 +135,28 @@ inline Vector operator^(Vector u, Vector v)
 	
 }	
 
+// Dot product of vector v and u (element by element multiplication)
+inline float operator*(Vector u, Vector v)
+{
+	return (u.x*v.x + u.y*v.y + u.z*v.z);
+}
 
+// Scalar multiplication
+inline Vector operator*(float s, Vector u)
+{
+	return Vector(u.x*s, u.y*s, u.z*s);
+}	
+
+inline Vector operator*(Vector u, float s)
+{
+	return Vector(u.x*s, u.y*s, u.z*s);
+}	
+
+// Triple scalar product
+inline float TripleScalarProduct(Vector u, Vector v, Vector w)
+{
+	return float(	(u.x * (v.y*w.z - v.z*w.y)) +
+								 (u.y * (-v.x*w.z + v.z*w.x)) +
+								 (u.z * (v.x*w.y - v.y*w.x)) );
+	
+}
