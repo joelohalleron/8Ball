@@ -38,104 +38,7 @@ int tickCt = 0;
 //Drawing coordinates
 int x = 240, y = 120, dx = 1, dy = 0;
 
-//Test code for physics
 
-
-typedef struct{
-	float x;
-	float y;
-}Vector2;
-	
-
-
-//Struct for ball object
-typedef struct{
-	float r;
-	Vector2 velocity;
-	float x;
-	float y;
-	float mass;
-} Ball;
-
-//Prototype of force function
-float computeForce(Ball);
-
-float RandomFloat(float a, float b) {
-    float random = ((float) rand()) / (float) RAND_MAX;
-    float diff = b - a;
-    float r = random * diff;
-    return a + r;
-};
-
-
-Ball balls[16] = {};
-	
-//draw an array of balls
-void initializeBalls(){
-	for (int i = 0; i < 17; ++i){
-		Ball *ball = &balls[i];	
-		ball->x = rand() % 400 + 20;
-		ball->y = rand() % 260 + 20;
-		ball->velocity.x = RandomFloat(0.1,2);
-		ball->velocity.y = RandomFloat(0.1,2);
-		ball->r = 10;
-		
-	}
-}
-
-void drawBalls(){
-		for (int i = 0; i < 17; ++i){
-		Ball *ball = &balls[i];	
-		screen->fillCircle(ball->x, ball->y, ball->r, RED);
-	}
-}
-
-void hitBoundary(Ball *ball){
-	
-	if (26 > ball->x || ball->x > 409  ){
-		ball->velocity.x = -ball->velocity.x;
-	}
-	if(26 > ball->y || ball->y > 229){
-		ball->velocity.y = -ball->velocity.y;
-	}
-}
-
-void detectCollisions(){
-	for (int i = 0; i < 17; ++i)
-	{
-		Ball *ball1 = &balls[i];
-		for(int n = 0; n < 17; ++n)
-		{
-			Ball *ball2 = &balls[n];
-			if(pow((ball2->x - ball1->x), 2) + pow((ball2->y - ball1->y), 2) < pow((2*ball1->r),2))
-			{
-				ball1->velocity
-			}
-		}
-	}
-}
-
-void moveballs(int dt){
-
-		for (int i = 0; i < 17; ++i){
-			Ball *ball = &balls[i];
-			float force = computeForce(*ball);
-			Vector2 acceleration = (Vector2){(force.x / ball->mass), (force.y / ball->mass)};
-			screen->fillCircle(ball->x, ball->y, ball->r, GREEN);
-			hitBoundary(ball);
-			ball->velocity.x += acceleration.x * dt;
-      ball->velocity.y += acceleration.y * dt;
-      ball->x += ball->velocity.x * dt;
-      ball->y += ball->velocity.y * dt;
-			screen->fillCircle(ball->x, ball->y, ball->r, RED);
-		}
-};
-
-
-
-
-
-//End of test code for physics
 
 int main() {
   // Initialise the display
@@ -146,27 +49,7 @@ int main() {
   Ticker ticktock;
   ticktock.attach(&timerHandler, 1);
   
-	//TimeStep
-  int dt = 1;
-		
-	//DrawBoard
-	screen->fillRoundRect(20, 20, 420, 240,
-      20, BLACK);
-	screen->fillRoundRect(25, 25, 410, 230,
-      20, GREEN);
-	
-	//Draw balls initial position
-	initializeBalls();
-	
-  
-  while (true) {
-		
-	  //drawBalls();
-		//wait(0.005); //5 milliseconds
-		moveballs(dt);
 
-    wait(0.005); //5 milliseconds
-  }
 }
 
 bool accInit(MMA7455& acc) {

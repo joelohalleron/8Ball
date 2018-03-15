@@ -1,5 +1,9 @@
 --cpu Cortex-M4.fp
 ".\objects\main.o"
+".\objects\matrix3x3.o"
+".\objects\quaternion.o"
+".\objects\vector.o"
+".\objects\physics.o"
 ".\objects\startup_lpc407x_8x_177x_8x.o"
 ".\objects\cmsis_nvic.o"
 ".\objects\system_lpc407x_8x_177x_8x.o"

@@ -435,26 +435,6 @@
               </FileOption>
             </File>
             <File>
-              <FileName>physics.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\physics.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>physics.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\physics.h</FilePath>
-            </File>
-            <File>
-              <FileName>vector.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\vector.h</FilePath>
-            </File>
-            <File>
-              <FileName>vector.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\vector.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Matrix3x3.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Matrix3x3.cpp</FilePath>
@@ -468,6 +448,31 @@
               <FileName>Quaternion.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Quaternion.h</FilePath>
+            </File>
+            <File>
+              <FileName>Vector.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Vector.h</FilePath>
+            </File>
+            <File>
+              <FileName>Vector.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Vector.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Matrix3x3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Matrix3x3.h</FilePath>
+            </File>
+            <File>
+              <FileName>Physics.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Physics.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Physics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Physics.h</FilePath>
             </File>
           </Files>
         </Group>

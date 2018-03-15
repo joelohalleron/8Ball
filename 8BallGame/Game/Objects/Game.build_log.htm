@@ -5,9 +5,10 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.21.1.0
 Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Joel O'Halleron Northumbria University Flex license: error obtaining information 
+License Information: Joel O'Halleron Northumbria University Flex license: MDK-ARM Professional: 50 user(s) (mdk_pro) Operation stops: 31 Jul 2018
+ 
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.21a
+Toolchain:       MDK-ARM Professional: 50 user(s)  Version: 5.21a
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 3 (build 300)
 Assembler:       Armasm.exe V5.06 update 3 (build 300)
@@ -21,34 +22,32 @@ Dialog DLL:      TCM.DLL V1.14.14.0
  
 <h2>Project:</h2>
 F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\Game.uvprojx
-Project File Date:  03/13/2018
+Project File Date:  03/14/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build Project 'Game' - Target 'NXP LPC4088'
-compiling physics.cpp...
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\physics.cpp(1): error:  #5: cannot open source input file "physics.h": No such file or directory
-  #include <physics.h>
-src\physics.cpp: 0 warnings, 1 error
-compiling vector.cpp...
-compiling Quaternion.cpp...
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Quaternion.h(26): warning:  #1-D: last line of file ends without a newline
-  		
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Quaternion.cpp(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  	return (deg * 3.14159265358979323846)/180.0f;
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Quaternion.cpp(92): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  	return (rad * 180.0f)/3.14159265358979323846;
-src\Quaternion.cpp: 3 warnings, 0 errors
-compiling Matrix3x3.cpp...
-compiling main.cpp...
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\main.cpp(112): warning:  #174-D: expression has no effect
-  				ball1->velocity
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\main.cpp(113): error:  #65: expected a ";"
-  			}
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\main.cpp(123): error:  #29: expected an expression
-  			Vector2 acceleration = (Vector2){(force.x / ball->mass), (force.y / ball->mass)};
-src\main.cpp: 1 warning, 2 errors
-".\Objects\Game.axf" - 3 Error(s), 4 Warning(s).
+compiling Vector.cpp...
+compiling Physics.cpp...
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(89): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Bodies[i].vPosition.y = -(
+ALLDIAMETER/2.0f+0.25*
+ALLDIAMETER);
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(95): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Bodies[i].vPosition.y = 
+ALLDIAMETER/2.0f+0.25*
+ALLDIAMETER;
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(204): error:  #349: no operator "*" matches these operands
+            operand types are: Vector * double
+  		Fb += vDragVector * ((1.0f/2.0f) * speed * speed * RHO * 
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(175): warning:  #177-D: variable "j" was declared but never referenced
+  	int         i, j;
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(178): warning:  #177-D: variable "check" was declared but never referenced
+  	int					check = NOCOLLISION;
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(179): warning:  #177-D: variable "pCollisionData" was declared but never referenced
+  	pCollision  pCollisionData;
+src\Physics.cpp: 5 warnings, 1 error
+".\Objects\Game.axf" - 1 Error(s), 5 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\RTE
@@ -56,7 +55,7 @@ src\main.cpp: 1 warning, 2 errors
 
 <h2>Collection of Component Files used:</h2>
 Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

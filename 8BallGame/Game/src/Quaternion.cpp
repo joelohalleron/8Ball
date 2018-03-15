@@ -200,7 +200,7 @@ inline Vector QVRotate(Quaternion q, Vector v)
 }
 
 // MakeQFromEulerAngles - Constructs a Quaternion from a set of euler angles (yaw, pitch and roll) about the z axis
-inline Quaternion MakeQFromEulerAngles(float x, float y, float z)
+inline Quaternion Quaternion::MakeQFromEulerAngles(float x, float y, float z)
 {
 	Quaternion q;
 	double roll = DegreesToRadians(x);
@@ -232,7 +232,7 @@ inline Quaternion MakeQFromEulerAngles(float x, float y, float z)
 }
 
 // Make Euler angles (yaw, pitch and roll) based on a quaternion
-inline Vector MakeEulerAnglesFromQ(Quaternion q)
+inline Vector Quaternion::MakeEulerAnglesFromQ(Quaternion q)
 {
 	double r11, r21, r31, r32, r33, r12, r13;
 	double q00, q11, q22, q33;
@@ -258,7 +258,7 @@ inline Vector MakeEulerAnglesFromQ(Quaternion q)
 		
 		u.x = RadiansToDegrees(0.0f); //roll
 		u.y = RadiansToDegrees((float) (-(3.14159265358979323846/2) * r31/tmp)); //pitch
-		u.z = RadiansToDegrees((float) (atan2(-r12, -r31*r12))); //yaw
+		u.z = RadiansToDegrees((float) (atan2(-r12, -r31*r13))); //yaw
 	}
 	
 	u.x = RadiansToDegrees((float) atan2(r32, r33)); //roll

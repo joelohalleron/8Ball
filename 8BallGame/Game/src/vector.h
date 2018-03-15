@@ -1,5 +1,9 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
+
 //Vector Class definition and function prototypes
-class Vector {
+class Vector{
 	public: 
 		float x;
 		float y;
@@ -20,3 +24,5 @@ class Vector {
 	
 	Vector operator-(void);
 };
+#endif
+

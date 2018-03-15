@@ -1,5 +1,5 @@
 #include <math.h>
-#include "vector.h"
+#include "Vector.h"
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 //Vector class and vector functions
@@ -55,8 +55,8 @@ inline void Vector::Reverse(void)
 inline Vector& Vector::operator+=(Vector u)
 {
 	x += u.x;
-	y += u.x;
-	z += u.x;
+	y += u.y;
+	z += u.z;
 	return *this;
 }
 
