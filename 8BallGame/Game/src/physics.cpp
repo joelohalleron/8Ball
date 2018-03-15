@@ -201,15 +201,16 @@ void CalcObjectForces(void)
 		vDragVector = -Bodies[i].vVelocityBody;
 		vDragVector.Normalise();
 		speed = Bodies[i].vVelocityBody.Magnitude();
-		Fb += vDragVector *= ((1.0f/2.0f) * speed * speed * RHO * /////////////////POTENTIAL FUALTY CODE (Should be * not *= ?)////////////////////
+		Fb += vDragVector * ((1.0f/2.0f) * speed * speed * RHO * /////////////////POTENTIAL FUALTY CODE (Should be * not *= ?)////////////////////
 					LINEARDRAGCOEFFICIENT * pow(Bodies[i].fRadius, 2) *
 					Bodies[i].fRadius*PI);
 		
 		vAngularDragVector = -Bodies[i].vAngularVelocity;
 		vAngularDragVector.Normalise();
-		Mb += vAngularDragVector * (Bodies[i].vAngularVelocity.Magnitude() *
+		float dragFactor = Bodies[i].vAngularVelocity.Magnitude() *
 		      Bodies[i].vAngularVelocity.Magnitude() * RHO * ANGULARDRAGCOEFFICIENT
-					* 4 * pow(Bodies[i].fRadius, 2)*PI);
+					* 4 * pow(Bodies[i].fRadius, 2)*PI;
+		Mb +=  vAngularDragVector * dragFactor;
 	}
 	
 }

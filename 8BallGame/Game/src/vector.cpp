@@ -130,8 +130,10 @@ inline Vector operator*(float s, Vector u)
 
 inline Vector operator*(Vector u, float s)
 {
+	
 	return Vector(u.x*s, u.y*s, u.z*s);
 }	
+
 
 // Triple scalar product
 inline float TripleScalarProduct(Vector u, Vector v, Vector w)

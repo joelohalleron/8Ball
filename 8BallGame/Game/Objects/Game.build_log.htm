@@ -5,10 +5,9 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.21.1.0
 Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Joel O'Halleron Northumbria University Flex license: MDK-ARM Professional: 50 user(s) (mdk_pro) Operation stops: 31 Jul 2018
- 
+License Information: Joel O'Halleron Northumbria University Flex license: error obtaining information 
 Tool Versions:
-Toolchain:       MDK-ARM Professional: 50 user(s)  Version: 5.21a
+Toolchain:       MDK-Lite  Version: 5.21a
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 3 (build 300)
 Assembler:       Armasm.exe V5.06 update 3 (build 300)
@@ -28,6 +27,13 @@ Project File Date:  03/14/2018
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build Project 'Game' - Target 'NXP LPC4088'
 compiling Vector.cpp...
+compiling Quaternion.cpp...
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Quaternion.cpp(87): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	return (deg * 3.14159265358979323846)/180.0f;
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Quaternion.cpp(92): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	return (rad * 180.0f)/3.14159265358979323846;
+src\Quaternion.cpp: 2 warnings, 0 errors
+compiling Matrix3x3.cpp...
 compiling Physics.cpp...
 F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(89): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   			Bodies[i].vPosition.y = -(
@@ -37,9 +43,9 @@ F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\sr
   			Bodies[i].vPosition.y = 
 ALLDIAMETER/2.0f+0.25*
 ALLDIAMETER;
-F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(204): error:  #349: no operator "*" matches these operands
-            operand types are: Vector * double
-  		Fb += vDragVector * ((1.0f/2.0f) * speed * speed * RHO * 
+F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(213): error:  #349: no operator "*" matches these operands
+            operand types are: Vector * float
+  		Mb += vAngularDragVector * dragFactor;
 F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(175): warning:  #177-D: variable "j" was declared but never referenced
   	int         i, j;
 F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(178): warning:  #177-D: variable "check" was declared but never referenced
@@ -47,7 +53,7 @@ F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\sr
 F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\src\Physics.cpp(179): warning:  #177-D: variable "pCollisionData" was declared but never referenced
   	pCollision  pCollisionData;
 src\Physics.cpp: 5 warnings, 1 error
-".\Objects\Game.axf" - 1 Error(s), 5 Warning(s).
+".\Objects\Game.axf" - 1 Error(s), 7 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   F:\Documents\Final Year\EN0617 - Industrial Case Project\8Ball\8BallGame\Game\RTE
@@ -55,7 +61,7 @@ src\Physics.cpp: 5 warnings, 1 error
 
 <h2>Collection of Component Files used:</h2>
 Target not created.
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:18
 </pre>
 </body>
 </html>
