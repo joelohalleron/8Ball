@@ -9,9 +9,11 @@ class Matrix3x3;
 
 //=================================
 // included dependencies
-#include "vector.h"
+#include "Vector.h"
 #include "Quaternion.h"
 #include "Matrix3x3.h"
+#include <assert.h>
+#include <stdio.h>
 
 //=================================
 // Struct Definitions
@@ -30,7 +32,7 @@ typedef struct _RigidBody {
 	Vector			vAngularVelocityGlobal; //Angular velocity in global coordinates
 	Vector			vEulerAngles; //Euler angles in body coordinates
 	float			  fSpeed; //Speed (magnitude) of the velocity
-	Quaternion  qQuaternion; //Orientation in earth coordinates
+	Quaternion  qOrientation; //Orientation in earth coordinates
 	Vector		  vForces; //Total force on body
 	Vector 			vMoments; //Totel moment (torque) on the body
 	Matrix3x3		mIeInverse; //Inverse of moment of inertia in earth coordinates
@@ -40,11 +42,11 @@ typedef struct _RigidBody {
 typedef struct _Collision {
 	int			body1;
 	int			body2;
-	Vector	vCollsionNormal;
-	Vector 	vCollsionPoint;
+	Vector	vCollisionNormal;
+	Vector 	vCollisionPoint;
 	Vector	vRelativeVelocity;
 	Vector  vRelativeAcceleration;
-	Vector  VCollisionTangent;
+	Vector  vCollisionTangent;
 } Collision, *pCollision;
 
 //Collision Check
@@ -71,7 +73,8 @@ enum {NOCOLLISION, COLLISION};
 //=================================
 // Global Variable Declarations
 RigidBody			Bodies[NUMBODIES];
-Collision     Collisons[NUMBODIES*8];
-int           NumCollsions = 0;
+Collision     Collisions[NUMBODIES*8];
+int           NumCollisions = 0;
+int status;
 #endif
 

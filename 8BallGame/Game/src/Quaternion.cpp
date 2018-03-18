@@ -190,7 +190,7 @@ inline Quaternion QRotate(Quaternion q1, Quaternion q2)
 }
 
 // QVRotate - Rotates a vector by a unit quaternion
-inline Vector QVRotate(Quaternion q, Vector v)
+inline Vector Quaternion::QVRotate(Quaternion q, Vector v)
 {
 	Quaternion t;
 	

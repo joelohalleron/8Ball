@@ -7,7 +7,7 @@ class Vector;
 
 //=================================
 // included dependencies
-#include "vector.h" 
+#include "Vector.h" 
 
 
 // Quaternion Class definition and Function prototypes 
@@ -29,6 +29,7 @@ class Quaternion{
 		Quaternion operator/=(float s);
 	  Quaternion MakeQFromEulerAngles(float x, float y, float z);
 	  Vector MakeEulerAnglesFromQ(Quaternion q);
+	  Vector QVRotate(Quaternion q, Vector v);
 	
 		//This simply returns the negative of the vector part (conjugate)
 		Quaternion operator~(void) const { return Quaternion(n,
