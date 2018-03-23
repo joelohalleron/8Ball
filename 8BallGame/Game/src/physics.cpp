@@ -645,3 +645,81 @@ int CheckGroundPlaneContacts(pCollision CollisionData, int body1)
   }
 	return status;
 }
+
+void StepSimulation(float dtime){
+	
+	Vector 		Ae;
+	int     	i;
+	float  		dt = dtime;
+	int    		check = NOCOLLISION;
+	int       c = 0;
+	
+	//Calculate all of the forces and moments on the balls:
+	CalcObjectForces();
+	
+	//Integrate the equations of motion:
+	for (i=0; i<NUMBODIES; i++)
+	{
+		//Calculate the acceleration in earth space
+		Ae = Bodies[i].vForces / Bodies[i].fMass;
+		Bodies[i].vAcceleration = Ae;
+		
+		//Calculate the velocity in earth space
+		Bodies[i].vVelocity += Ae * dt;
+		
+		//Calculate the position in earth space
+		Bodies[i].vPosition += Bodies[i].vVelocity * dt;
+		
+		//Handle rotations
+		float mag;
+		
+		Bodies[i].vAngularAcceleration = Bodies[i].mInertiaInverse *
+																		(Bodies[i].vMoments -
+																		(Bodies[i].vAngularVelocity^
+																	  (Bodies[i].mInertia * Bodies[i].vAngularVelocity)));
+		
+		Bodies[i].vAngularVelocity += Bodies[i].vAngularAcceleration * dt;
+		
+		//Calculate the new rotation quaternion 
+		Bodies[i].qOrientation += (Bodies[i].qOrientation * Bodies[i].vAngularVelocity) * (0.5f * dt);
+		
+		//Now normalize the orientation quaternion:
+		mag = Bodies[i].qOrientation.Magnitude();
+		if(mag != 0)
+		{
+			Bodies[i].qOrientation /= mag;
+			
+			//Calc velocity in body space
+			Bodies[i].vVelocityBody = Bodies[i].qOrientation.QVRotate(~Bodies[i].qOrientation, Bodies[i].vVelocity);
+			
+			//Get the angular velocity in global coords
+			Bodies[i].vAngularVelocityGlobal = Bodies[i].qOrientation.QVRotate(Bodies[i].qOrientation, Bodies[i].vAngularAcceleration);
+			
+			//Get the inverse inertia tensor in global coordinates
+			Matrix3x3 R, RT;
+			
+			R = MakeMatrixFromQuaternion(Bodies[i].qOrientation);
+			RT = R.Transpose();
+			
+			Bodies[i].mIeInverse = R * Bodies[i].mInertiaInverse * RT;
+			
+			//Calculate the air speed
+			Bodies[i].fSpeed = Bodies[i].vVelocity.Magnitude();
+			
+			//Get the euler angles for information vector
+			Vector u;
+			
+			u = Bodies[i].qOrientation.MakeEulerAnglesFromQ(Bodies[i].qOrientation);
+			Bodies[i].vEulerAngles.x = u.x; //roll
+			Bodies[i].vEulerAngles.y = u.y; //pitch
+			Bodies[i].vEulerAngles.z = u.z; //Yaw
+		}
+		//Handle Collisions
+		check = CheckForCollisions();
+		if(check == COLLISION){
+			ResolveCollsions();
+	
+		}
+																		
+	}
+}

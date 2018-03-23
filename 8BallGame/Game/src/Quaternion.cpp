@@ -125,35 +125,9 @@ inline Quaternion operator*(Quaternion q1, Quaternion q2)
 }
 
 	
-// Scalar multiplication - multiplies each element in the Quaternion by the scalar
-// Two types for different encounter order
-inline Quaternion operator*(Quaternion q, float s)
-{
-	return Quaternion(q.n*s, q.v.x*s, q.v.y*s, q.v.z*s);
-}
 
-inline Quaternion operator*(float s, Quaternion q)
-{
-	return Quaternion(q.n*s, q.v.x*s, q.v.y*s, q.v.z*s);
-}
 
-// Vector multiplication - vector by quaternion multiplication
-// Two types for different encounter order
-inline Quaternion operator*(Quaternion q, Vector v)
-{
-	return Quaternion(   -(q.v.x*v.x + q.v.y*v.y + q.v.z*v.z),
-													q.n*v.x + q.v.y*v.z - q.v.z*v.y,
-													q.n*v.y +q.v.z*v.x - q.v.x*v.z,
-												  q.n*v.z + q.v.x*v.y - q.v.y*v.x);
-}
 
-inline Quaternion operator*(Vector v, Quaternion q)
-{
-	return Quaternion(   -(q.v.x*v.x + q.v.y*v.y + q.v.z*v.z),
-													q.n*v.x + q.v.y*v.z - q.v.z*v.y,
-													q.n*v.y +q.v.z*v.x - q.v.x*v.z,
-												  q.n*v.z + q.v.x*v.y - q.v.y*v.x);
-}
 
 // Scalar division - divides each component by the scalar
 inline Quaternion operator/(Quaternion q, float s)
@@ -182,6 +156,9 @@ inline Vector QGetAxis(Quaternion q)
 	else
 		return v/=m;
 }
+
+// Convert Quaternion to  a matrix
+inline Matrix3x3
 
 // QRotate - Rotates the quaternion by the argument quaternion 
 inline Quaternion QRotate(Quaternion q1, Quaternion q2)
