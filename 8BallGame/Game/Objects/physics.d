@@ -4,3 +4,7 @@
 .\objects\physics.o: src\Quaternion.h
 .\objects\physics.o: src\Matrix3x3.h
 .\objects\physics.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\physics.o: src\Matrix3x3.h
+.\objects\physics.o: src\Quaternion.h
+.\objects\physics.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+.\objects\physics.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

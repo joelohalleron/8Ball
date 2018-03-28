@@ -167,6 +167,88 @@ void InitialiseObjects(int configuration)
 	
 }
 
+void FlushCollisionData(void)
+	{
+		Collisions->body1 = 0;
+		Collisions->body2 = 0;
+		Collisions->vCollisionNormal = Vector();
+		Collisions->vCollisionPoint = Vector();
+		Collisions->vRelativeVelocity = Vector();
+		Collisions->vRelativeAcceleration = Vector();
+		Collisions->vCollisionTangent = Vector();	
+	}
+
+	int CheckGroundPlaneContacts(pCollision CollisionData, int body1)
+{
+	Vector v1[8];
+	Vector tmp;
+	Vector u, v;
+	Vector f[4];
+	Vector vel1;
+	Vector pt1;
+	Vector Vr;
+	float Vrn;
+	Vector n;
+	int    status = NOCOLLISION;
+	Vector Ar;
+	float  Arn;
+	
+	if(Bodies[body1].vPosition.z <= (Bodies[body1].fRadius + COLLISIONTOLERANCE))
+	{
+		pt1 = Bodies[body1].vPosition;
+		pt1.z = COLLISIONTOLERANCE;
+		tmp = pt1;
+		pt1 = pt1 - Bodies[body1].vPosition;
+		vel1 = Bodies[body1].vVelocity/*Body*/ +
+						(Bodies[body1].vAngularVelocityGlobal^pt1);
+		
+		n.x = 0;
+		n.y = 0;
+		n.z = 1;
+		
+		Vr = vel1;
+		Vrn = Vr * n;
+		
+		if(fabs(Vrn) <= VELOCITYTOLERANCE) // at rest
+		{//Check the relative acceleration
+		Ar = Bodies[body1].vAcceleration +
+				(Bodies[body1].vAngularVelocityGlobal ^
+		    (Bodies[body1].vAngularVelocityGlobal^pt1)) +
+				(Bodies[body1].vAngularAccelerationGlobal ^ pt1);
+		
+		Arn = Ar * n;
+		
+		if(Arn <= 0.0f)
+		{
+			//We have a contact so fill the data structure
+			assert(NumCollisions < (NUMBODIES*8));
+			if(NumCollisions < (NUMBODIES*8))
+			{
+				CollisionData->body1 = body1;
+				CollisionData->body2 = -1;
+				CollisionData->vCollisionNormal = n;
+				CollisionData->vCollisionPoint = tmp;
+				CollisionData->vRelativeVelocity = Vr; 
+				CollisionData->vRelativeAcceleration = Ar; 
+				
+				CollisionData->vCollisionTangent = (n^Vr)^n;
+				CollisionData->vCollisionTangent.Reverse();
+				
+				CollisionData->vCollisionTangent.Normalise();
+				CollisionData++;
+				NumCollisions++;
+				status = CONTACT;
+				
+				
+			}
+		}
+	}
+		
+	
+  }
+	return status;
+}
+
 void CalcObjectForces(void)
 {
 	Vector			Fb, Mb;
@@ -231,17 +313,18 @@ void CalcObjectForces(void)
 																		 Bodies[i].vAngularVelocity)));
 		
 		//Resolve ground plane contacts
-		FlushCollsionData();
+		FlushCollisionData();
 		pCollisionData = Collisions;
 		NumCollisions = 0;
 		if(DOCONTACT)
-				check = CheckGroundPlaneContacts(pCollisionData, i)
+				check = CheckGroundPlaneContacts(pCollisionData, i);
+		if((check == CONTACT) && DOCONTACT)
 		{ j = 0;
 			{
-				assert(NumCollsions <=1);
+				assert(NumCollisions <=1);
 				
 				ContactForce = (Bodies[i].fMass * (-Bodies[i].vAcceleration *
-																					Collisions[j].vCollsionNormal)) *
+																					Collisions[j].vCollisionNormal)) *
 				                                   Collisions[j].vCollisionNormal;
 				if(DOFRICTION)
 				{
@@ -270,14 +353,14 @@ void CalcObjectForces(void)
 			{
 				FRn = ContactForce.Magnitude() *
 							Collisions[j].vCollisionNormal;
-				Collisions[j].vCollisionTangent.Normalize();
+				Collisions[j].vCollisionTangent.Normalise();
 				Vector m = (Collisions[j].vCollisionTangent *
 										(ROLLINGRESISTANCECOEFFICIENT *
 										 Bodies[i].fRadius))^FRn;
 				double mag = m.Magnitude();
 				Vector a = Bodies[i].vAngularVelocity;
-				a.Normalize();
-				Bodies[i].vMoments =+ -a *mag;
+				a.Normalise();
+				Bodies[i].vMoments += -a *mag;
 			}				
 				
 				//Accumulate contact and friction forces and moments
@@ -285,9 +368,9 @@ void CalcObjectForces(void)
 				Bodies[i].vForces += FrictionForce;
 			
 				ContactForce = Bodies[i].qOrientation.QVRotate(~Bodies[i].qOrientation, ContactForce);
-				FrictionForce = QVRotate(~Bodies[i.qOrientation,
+				FrictionForce = Bodies[i].qOrientation.QVRotate(~Bodies[i].qOrientation,
 																					FrictionForce);
-				pt = Collision[j].vCollisionPoint - Bodies[j].vPosition;
+				pt = Collisions[j].vCollisionPoint - Bodies[j].vPosition;
 				pt = Bodies[i].qOrientation.QVRotate(~Bodies[i].qOrientation, pt);
 			
 				Bodies[i].vMoments += pt^ContactForce;
@@ -421,24 +504,41 @@ int CheckForCollisions(void)
 							//Have a collision so fill the data structure
 							int numBodies = NUMBODIES*8;
 							assert(NumCollisions < numBodies);
-							check = CheckGroundPlaneCollisions(pCollisionData, i);
-							if(check == COLLISION)
+							if(NumCollisions < (NUMBODIES * 8))
 							{
-								status = COLLISION;
+								pCollisionData->body1 = i;
+								pCollisionData->body2 = j;
+								pCollisionData->vCollisionNormal = n;
+								pCollisionData->vCollisionPoint = tmp;
+								pCollisionData->vRelativeVelocity = Vr;
+								pCollisionData->vCollisionTangent = (n^Vr)^n;
+								pCollisionData->vCollisionTangent.Normalise();
+								
 								pCollisionData++;
 								NumCollisions++;
+								status = COLLISION;
 							}
-							
-							
 						}
-						return status;
 					}
-					
-					
 				}
-	}
-}
-
+			}
+				for(i=0; i<NUMBODIES; i++)
+				{
+					check = NOCOLLISION;
+					
+					assert(NumCollisions < (NUMBODIES*8));
+					check = CheckGroundPlaneCollisions(pCollisionData, i);
+					if(check == COLLISION)
+					{
+						status = COLLISION;
+						pCollisionData++;
+						NumCollisions++;
+						
+					}
+				}
+				
+				return status;
+			}
 
 
 
@@ -575,76 +675,7 @@ void ResolveCollsions(void)
  }
 }
 
-int CheckGroundPlaneContacts(pCollision CollisionData, int body1)
-{
-	Vector v1[8];
-	Vector tmp;
-	Vector u, v;
-	Vector f[4];
-	Vector vel1;
-	Vector pt1;
-	Vector Vr;
-	Vector Vrn;
-	Vector n;
-	int    status = NOCOLLISION;
-	Vector Ar;
-	float  Arn;
-	
-	if(Bodies[body1].vPosition.z <= (Bodies[body1].fRadius + COLLISIONTOLERANCE))
-	{
-		pt1 = Bodies[body1].vPosition;
-		pt1.z = COLLISIONTOLERANCE;
-		tmp = pt1;
-		pt1 = pt1 - Bodies[body1].vPosition;
-		vel1 = Bodies[body1].vVelocity/*Body*/ +
-						(Bodies[body1].vAngularVelocityGlobal^pt1);
-		
-		n.x = 0;
-		n.y = 0;
-		n.z = 1;
-		
-		Vr = vel1;
-		Vrn = Vr * n;
-		
-		if(fabs(Vrn) <= VELOCITYTOLERANCE) // at rest
-		{//Check the relative acceleration
-		Ar = Bodies[body1].vAcceleration +
-				(Bodies[body1].vAngularVelocityGlobal ^
-		    (Bodies[body1].vAngularVelocityGlobal^pt1)) +
-				(Bodies[body1].vAngularAccelerationGlobal ^ pt1);
-		
-		Arn = Ar * n;
-		
-		if(Arn <= 0.0f)
-		{
-			//We have a contact so fill the data structure
-			assert(NumCollisions < (NUMBODIES*8));
-			if(NumCollisions < (NUMBODIES*8))
-			{
-				CollisionData->body1 = body1;
-				CollisionData->body2 = -1;
-				CollisionData->vCollisionNormal = n;
-				CollisionData->vCollisionPoint = tmp;
-				CollisionData->vRelativeVelocity = Vr; 
-				CollisionData->vRelativeAcceleration = Ar; 
-				
-				CollisionData->vCollisionTangent = (n^Vr)^n;
-				CollisionData->vCollisionTangent.Reverse();
-				
-				CollisionData->vCollisionTangent.Normalise();
-				CollisionData++;
-				NumCollisions++;
-				status = CONTACT;
-				
-				
-			}
-		}
-	}
-		
-	
-  }
-	return status;
-}
+
 
 void StepSimulation(float dtime){
 	
@@ -652,7 +683,6 @@ void StepSimulation(float dtime){
 	int     	i;
 	float  		dt = dtime;
 	int    		check = NOCOLLISION;
-	int       c = 0;
 	
 	//Calculate all of the forces and moments on the balls:
 	CalcObjectForces();

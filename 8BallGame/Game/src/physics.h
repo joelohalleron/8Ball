@@ -49,8 +49,9 @@ typedef struct _Collision {
 	Vector  vCollisionTangent;
 } Collision, *pCollision;
 
-//Collision Check
-enum {NOCOLLISION, COLLISION};
+
+//Collision Checks
+typedef enum {NOCOLLISION = 0, COLLISION, CONTACT, DOCONTACT} collision_t;
 
 //=================================
 // Global data definitions
@@ -68,13 +69,15 @@ enum {NOCOLLISION, COLLISION};
 #define   ROLLINGRESISTANCECOEFFICIENT  0.025f
 #define   RHO                           1.225f
 #define   PI                            3.141f
-
+#define   COLLISIONTOLERANCE            0.5f   //Can be tuned based on results
+#define   VELOCITYTOLERANCE             0.2f   //Can be tuned based on results
+#define   DOFRICTION                    true
+	
 
 //=================================
 // Global Variable Declarations
 RigidBody			Bodies[NUMBODIES];
 Collision     Collisions[NUMBODIES*8];
 int           NumCollisions = 0;
-int status;
 #endif
 

@@ -82,19 +82,19 @@ inline Quaternion Quaternion::operator/=(float s)
 // Quaternion Functions and operators
 
 //Conversion Functions
-inline float DegreesToRadians(float deg)
+float DegreesToRadians(float deg)
 {
 	return (deg * 3.14159265358979323846)/180.0f;
 }	
 
-inline float RadiansToDegrees(float rad)
+float RadiansToDegrees(float rad)
 {
 	return (rad * 180.0f)/3.14159265358979323846;
 }	
 
 
 // Two quaternion addition - adding two quaternions by element
-inline Quaternion operator+(Quaternion q1, Quaternion q2)
+Quaternion operator+(Quaternion q1, Quaternion q2)
 {
 	return Quaternion(q1.n + q2.n,
 											q1.v.x + q2.v.x,
@@ -103,7 +103,7 @@ inline Quaternion operator+(Quaternion q1, Quaternion q2)
 }
 
 // Two quaternion subtraction - subtracting one quaternion from another
-inline Quaternion operator-=(Quaternion q1, Quaternion q2)
+Quaternion operator-=(Quaternion q1, Quaternion q2)
 {
 	return Quaternion(q1.n - q2.n,
 											q1.v.x - q2.v.x,
@@ -112,7 +112,7 @@ inline Quaternion operator-=(Quaternion q1, Quaternion q2)
 }
 
 // Two Quaternion multplication - multiplied together
-inline Quaternion operator*(Quaternion q1, Quaternion q2)
+Quaternion operator*(Quaternion q1, Quaternion q2)
 {
 	return Quaternion(q1.n*q2.n - q1.v.x*q2.v.x
 											- q1.v.y*q2.v.y - q1.v.z*q2.v.z,
@@ -130,19 +130,19 @@ inline Quaternion operator*(Quaternion q1, Quaternion q2)
 
 
 // Scalar division - divides each component by the scalar
-inline Quaternion operator/(Quaternion q, float s)
+Quaternion operator/(Quaternion q, float s)
 {
 	return Quaternion(q.n/s, q.v.x/s, q.v.y/s, q.v.z/s);
 }
 
 // QGetAngle - Returns a unit vector along the axis of rotation
-inline float QGetAngle(Quaternion q)
+float QGetAngle(Quaternion q)
 {
 	return (float) (2*acos(q.n));
 }
 
 // QGetAxis - Returns a unit vector along the axis of rotation represented by the vector part of the Quaternion
-inline Vector QGetAxis(Quaternion q)
+Vector QGetAxis(Quaternion q)
 {
 	Vector v;
 	float m;
@@ -157,17 +157,16 @@ inline Vector QGetAxis(Quaternion q)
 		return v/=m;
 }
 
-// Convert Quaternion to  a matrix
-inline Matrix3x3
+
 
 // QRotate - Rotates the quaternion by the argument quaternion 
-inline Quaternion QRotate(Quaternion q1, Quaternion q2)
+Quaternion QRotate(Quaternion q1, Quaternion q2)
 {
 	return q1*q2*(~q1);
 }
 
 // QVRotate - Rotates a vector by a unit quaternion
-inline Vector Quaternion::QVRotate(Quaternion q, Vector v)
+Vector Quaternion::QVRotate(Quaternion q, Vector v)
 {
 	Quaternion t;
 	
@@ -177,7 +176,7 @@ inline Vector Quaternion::QVRotate(Quaternion q, Vector v)
 }
 
 // MakeQFromEulerAngles - Constructs a Quaternion from a set of euler angles (yaw, pitch and roll) about the z axis
-inline Quaternion Quaternion::MakeQFromEulerAngles(float x, float y, float z)
+Quaternion Quaternion::MakeQFromEulerAngles(float x, float y, float z)
 {
 	Quaternion q;
 	double roll = DegreesToRadians(x);
@@ -209,7 +208,7 @@ inline Quaternion Quaternion::MakeQFromEulerAngles(float x, float y, float z)
 }
 
 // Make Euler angles (yaw, pitch and roll) based on a quaternion
-inline Vector Quaternion::MakeEulerAnglesFromQ(Quaternion q)
+Vector Quaternion::MakeEulerAnglesFromQ(Quaternion q)
 {
 	double r11, r21, r31, r32, r33, r12, r13;
 	double q00, q11, q22, q33;
@@ -243,5 +242,35 @@ inline Vector Quaternion::MakeEulerAnglesFromQ(Quaternion q)
 	u.z = RadiansToDegrees((float) atan2(r21, r11)); //yaw
 	
 	return u;
+}
+
+// Vector multiplication - vector by quaternion multiplication
+// Two types for different encounter order
+Quaternion operator*(Quaternion q, Vector v)
+{
+	return Quaternion(   -(q.v.x*v.x + q.v.y*v.y + q.v.z*v.z),
+													q.n*v.x + q.v.y*v.z - q.v.z*v.y,
+													q.n*v.y +q.v.z*v.x - q.v.x*v.z,
+												  q.n*v.z + q.v.x*v.y - q.v.y*v.x);
+}
+
+Quaternion operator*(Vector v, Quaternion q)
+{
+	return Quaternion(   -(q.v.x*v.x + q.v.y*v.y + q.v.z*v.z),
+													q.n*v.x + q.v.y*v.z - q.v.z*v.y,
+													q.n*v.y +q.v.z*v.x - q.v.x*v.z,
+												  q.n*v.z + q.v.x*v.y - q.v.y*v.x);
+}
+
+// Scalar multiplication - multiplies each element in the Quaternion by the scalar
+// Two types for different encounter order
+Quaternion operator*(Quaternion q, float s)
+{
+	return Quaternion(q.n*s, q.v.x*s, q.v.y*s, q.v.z*s);
+}
+
+Quaternion operator*(float s, Quaternion q)
+{
+	return Quaternion(q.n*s, q.v.x*s, q.v.y*s, q.v.z*s);
 }
 	
